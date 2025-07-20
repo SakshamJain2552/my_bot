@@ -115,3 +115,13 @@
   </link>
 
 </robot>
+
+
+
+ros2 launch my_bot rsp.launch.py
+[INFO] [launch]: All log files can be found below /home/rover/.ros/log/2025-07-20-14-58-47-015985-myie-Vostro-5581-9569
+[INFO] [launch]: Default logging verbosity is set to INFO
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): Caught multiple exceptions when trying to load file of format [py]:
+ - ExpatError: mismatched tag: line 56, column 8
+ - InvalidFrontendLaunchFileError: The launch file may have a syntax error, or its format is unknown
+
