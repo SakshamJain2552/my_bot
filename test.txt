@@ -166,3 +166,31 @@ def generate_launch_description():
         ),
     ])
 
+
+
+ros2 launch my_bot rsp.launch.py --show-args --debug
+Traceback (most recent call last):
+  File "/opt/ros/humble/lib/python3.10/site-packages/launch/launch_description_sources/any_launch_file_utilities.py", line 54, in get_launch_description_from_any_launch_file
+    return loader(launch_file_path)
+  File "/opt/ros/humble/lib/python3.10/site-packages/launch/launch_description_sources/python_launch_file_utilities.py", line 68, in get_launch_description_from_python_launch_file
+    return getattr(launch_file_module, 'generate_launch_description')()
+  File "/home/rover/dev_ws/install/my_bot/share/my_bot/launch/rsp.launch.py", line 59, in generate_launch_description
+    'robot_description': Command([
+NameError: name 'Command' is not defined
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/ros/humble/bin/ros2", line 33, in <module>
+    sys.exit(load_entry_point('ros2cli==0.18.11', 'console_scripts', 'ros2')())
+  File "/opt/ros/humble/lib/python3.10/site-packages/ros2cli/cli.py", line 91, in main
+    rc = extension.main(parser=parser, args=args)
+  File "/opt/ros/humble/lib/python3.10/site-packages/ros2launch/command/launch.py", line 170, in main
+    return print_arguments_of_launch_file(launch_file_path=path)
+  File "/opt/ros/humble/lib/python3.10/site-packages/ros2launch/api/api.py", line 123, in print_arguments_of_launch_file
+    launch_description = get_launch_description_from_any_launch_file(launch_file_path)
+  File "/opt/ros/humble/lib/python3.10/site-packages/launch/launch_description_sources/any_launch_file_utilities.py", line 57, in get_launch_description_from_any_launch_file
+    raise InvalidLaunchFileError(extension, likely_errors=exceptions)
+launch.invalid_launch_file_error.InvalidLaunchFileError: Caught multiple exceptions when trying to load file of format [py]:
+ - NameError: name 'Command' is not defined
+ - InvalidFrontendLaunchFileError: The launch file may have a syntax error, or its format is unknown
