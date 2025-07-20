@@ -175,3 +175,7 @@ ros2 launch my_bot rsp.launch.py
 [rviz2-2] [INFO] [1752988242.683688127] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
 [rviz2-2] [INFO] [1752988242.700075498] [rviz2]: Stereo is NOT SUPPORTED
 
+
+
+front_caster_wheel_link
+No transform from [front_caster_wheel_link] to [base_link]
