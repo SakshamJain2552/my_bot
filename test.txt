@@ -125,3 +125,44 @@ ros2 launch my_bot rsp.launch.py
  - ExpatError: mismatched tag: line 56, column 8
  - InvalidFrontendLaunchFileError: The launch file may have a syntax error, or its format is unknown
 
+
+# rsp.launch.py
+from launch import LaunchDescription
+from launch.actions import ExecuteProcess
+from launch_ros.actions import Node
+
+def generate_launch_description():
+    return LaunchDescription([
+        # 1) publish your URDF on /robot_description
+        Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            parameters=[{
+                # assumes your xacro lives at description/robot.urdf.xacro
+                'robot_description': Command([
+                    'xacro ', 
+                    PathJoinSubstitution([
+                        FindPackageShare('my_bot'),
+                        'description',
+                        'robot.urdf.xacro'
+                    ])
+                ])
+            }]
+        ),
+
+        # 2) optional: start RViz automatically
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            arguments=['-d', PathJoinSubstitution([
+                FindPackageShare('my_bot'),
+                'rviz',
+                'my_bot.rviz'   # point this at your saved config if you have one
+            ])]
+        ),
+    ])
+
