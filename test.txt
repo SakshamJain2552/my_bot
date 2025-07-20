@@ -177,5 +177,47 @@ ros2 launch my_bot rsp.launch.py
 
 
 
-front_caster_wheel_link
-No transform from [front_caster_wheel_link] to [base_link]
+# rsp.launch.py
+import os
+
+from launch import LaunchDescription
+from launch.substitutions import Command
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+
+def generate_launch_description():
+    # Locate package share and file paths
+    pkg_share = FindPackageShare('my_bot').find('my_bot')
+    xacro_file = os.path.join(pkg_share, 'description', 'robot.urdf.xacro')
+    rviz_config = os.path.join(pkg_share, 'rviz', 'my_bot.rviz')
+
+    return LaunchDescription([
+        # 1) Publish your URDF on /robot_description
+        Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            parameters=[{
+                'robot_description': Command(['xacro ', xacro_file])
+            }]
+        ),
+
+        # 2) Publish zero joint states for all non-fixed joints
+        Node(
+            package='joint_state_publisher',
+            executable='joint_state_publisher',
+            name='joint_state_publisher',
+            output='screen'
+        ),
+
+        # 3) Launch RViz2 (will use saved config if present)
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            arguments=['-d', rviz_config] if os.path.exists(rviz_config) else []
+        ),
+    ])
+
