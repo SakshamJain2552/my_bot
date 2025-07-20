@@ -159,3 +159,16 @@ def generate_launch_description():
             ) else []
         ),
     ])
+
+
+
+ros2 launch my_bot rsp.launch.py
+[INFO] [launch]: All log files can be found below /home/rover/.ros/log/2025-07-20-15-05-28-037799-myie-Vostro-5581-10688
+[INFO] [launch]: Default logging verbosity is set to INFO
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): executed command failed. Command: xacro /home/rover/dev_ws/install/my_bot/share/my_bot/description/robot.urdf.xacro
+Captured stderr output: XML parsing error: mismatched tag: line 56, column 8
+when processing file: /home/rover/dev_ws/install/my_bot/share/my_bot/description/robot.urdf.xacro
+
+Check that:
+ - Your XML is well-formed
+ - You have the xacro xmlns declaration: xmlns:xacro="http://www.ros.org/wiki/xacro"
