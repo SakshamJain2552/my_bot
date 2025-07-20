@@ -1,223 +1,108 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="simple_rover">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="three_wheel_rover">
 
-  <!-- 1) Base chassis -->
+  <!-- Chassis -->
   <link name="base_link">
     <visual>
-      <geometry>
-        <box size="0.6 0.4 0.15"/>   <!-- length × width × height -->
-      </geometry>
+      <geometry><box size="0.6 0.4 0.15"/></geometry>
       <material name="gray"/>
     </visual>
     <collision>
-      <geometry>
-        <box size="0.6 0.4 0.15"/>
-      </geometry>
+      <geometry><box size="0.6 0.4 0.15"/></geometry>
     </collision>
   </link>
 
-  <!-- 2) Front caster assembly -->
-  <!-- 2a) Caster “stem” (the red cylinder protruding from the body) -->
-  <joint name="front_caster_stem_joint" type="fixed">
+  <!-- FRONT AXLE (fixed bar) -->
+  <joint name="front_axle_joint" type="fixed">
     <parent link="base_link"/>
-    <child  link="front_caster_stem_link"/>
-    <!-- position this at the front center, slightly below chassis mid‑height -->
-    <origin xyz="0.3 0.0 -0.075" rpy="0 0 0"/>
+    <child  link="front_axle_link"/>
+    <!-- adjust X so it sits at front of chassis -->
+    <origin xyz=" 0.3 0  -0.075" rpy="0 0 0"/>
   </joint>
-  <link name="front_caster_stem_link">
+  <link name="front_axle_link">
     <visual>
-      <origin rpy="0 0 0"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.01"/>  <!-- stem length & thickness -->
-      </geometry>
+      <origin rpy="0 0 1.5708"/>
+      <geometry><cylinder length="0.4" radius="0.01"/></geometry>
       <material name="red"/>
     </visual>
     <collision>
-      <geometry>
-        <cylinder length="0.05" radius="0.01"/>
-      </geometry>
+      <geometry><cylinder length="0.4" radius="0.01"/></geometry>
     </collision>
   </link>
 
-  <!-- 2b) Caster wheel joint (free‑spinning) -->
-  <joint name="front_caster_wheel_joint" type="continuous">
-    <parent link="front_caster_stem_link"/>
-    <child  link="front_caster_wheel_link"/>
-    <!-- wheel sits at the end of the stem -->
-    <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+  <!-- FRONT LEFT WHEEL -->
+  <joint name="front_wheel_left_joint" type="continuous">
+    <parent link="front_axle_link"/>
+    <child  link="front_wheel_left_link"/>
+    <!-- Y offset +0.2 for left side -->
+    <origin xyz="0  0.2 0" rpy="0 0 0"/>
     <axis  xyz="0 1 0"/>
   </joint>
-  <link name="front_caster_wheel_link">
+  <link name="front_wheel_left_link">
     <visual>
       <origin rpy="0 0 1.5708"/>
-      <geometry>
-        <cylinder length="0.04" radius="0.08"/>  <!-- wheel thickness & radius -->
-      </geometry>
+      <geometry><cylinder length="0.05" radius="0.08"/></geometry>
       <material name="red"/>
     </visual>
     <collision>
-      <geometry>
-        <cylinder length="0.04" radius="0.08"/>
-      </geometry>
+      <geometry><cylinder length="0.05" radius="0.08"/></geometry>
     </collision>
   </link>
 
-  <!-- 3) Rear drive axle (one fixed axle for both back wheels) -->
-  <joint name="rear_axle_joint" type="fixed">
-    <parent link="base_link"/>
-    <child  link="rear_axle_link"/>
-    <!-- position it at the back -->
-    <origin xyz="-0.3 0.0 -0.075" rpy="0 0 0"/>
-  </joint>
-  <link name="rear_axle_link">
-    <visual>
-      <origin rpy="0 0 1.5708"/>
-      <geometry>
-        <cylinder length="0.4" radius="0.01"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
-    <collision>
-      <geometry>
-        <cylinder length="0.4" radius="0.01"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <!-- 4) Left drive wheel -->
-  <joint name="rear_wheel_left_joint" type="continuous">
-    <parent link="rear_axle_link"/>
-    <child  link="rear_wheel_left_link"/>
-    <origin xyz="0 0.2 0" rpy="0 0 0"/>
-    <axis  xyz="0 1 0"/>
-  </joint>
-  <link name="rear_wheel_left_link">
-    <visual>
-      <origin rpy="0 0 1.5708"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.08"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
-    <collision>
-      <geometry>
-        <cylinder length="0.05" radius="0.08"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <!-- 4) Right drive wheel -->
-  <joint name="rear_wheel_right_joint" type="continuous">
-    <parent link="rear_axle_link"/>
-    <child  link="rear_wheel_right_link"/>
+  <!-- FRONT RIGHT WHEEL -->
+  <joint name="front_wheel_right_joint" type="continuous">
+    <parent link="front_axle_link"/>
+    <child  link="front_wheel_right_link"/>
+    <!-- Y offset -0.2 for right side -->
     <origin xyz="0 -0.2 0" rpy="0 0 0"/>
     <axis  xyz="0 1 0"/>
   </joint>
-  <link name="rear_wheel_right_link">
+  <link name="front_wheel_right_link">
     <visual>
       <origin rpy="0 0 1.5708"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.08"/>
-      </geometry>
+      <geometry><cylinder length="0.05" radius="0.08"/></geometry>
       <material name="red"/>
     </visual>
     <collision>
-      <geometry>
-        <cylinder length="0.05" radius="0.08"/>
-      </geometry>
+      <geometry><cylinder length="0.05" radius="0.08"/></geometry>
+    </collision>
+  </link>
+
+  <!-- REAR WHEEL STEM (fixed) -->
+  <joint name="rear_stem_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="rear_stem_link"/>
+    <!-- X offset -0.3 to sit at back, center Y=0 -->
+    <origin xyz="-0.3 0 -0.075" rpy="0 0 0"/>
+  </joint>
+  <link name="rear_stem_link">
+    <visual>
+      <geometry><cylinder length="0.05" radius="0.01"/></geometry>
+      <origin rpy="0 0 0"/>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <geometry><cylinder length="0.05" radius="0.01"/></geometry>
+    </collision>
+  </link>
+
+  <!-- REAR WHEEL -->
+  <joint name="rear_wheel_joint" type="continuous">
+    <parent link="rear_stem_link"/>
+    <child  link="rear_wheel_link"/>
+    <!-- wheel attaches at end of stem -->
+    <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+    <axis  xyz="0 1 0"/>
+  </joint>
+  <link name="rear_wheel_link">
+    <visual>
+      <origin rpy="0 0 1.5708"/>
+      <geometry><cylinder length="0.05" radius="0.08"/></geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <geometry><cylinder length="0.05" radius="0.08"/></geometry>
     </collision>
   </link>
 
 </robot>
-
-
-
-
-
-
-ros2 launch my_bot rsp.launch.py
-[INFO] [launch]: All log files can be found below /home/rover/.ros/log/2025-07-20-15-10-42-289371-myie-Vostro-5581-11920
-[INFO] [launch]: Default logging verbosity is set to INFO
-[INFO] [robot_state_publisher-1]: process started with pid [11922]
-[INFO] [rviz2-2]: process started with pid [11924]
-[rviz2-2] Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
-[robot_state_publisher-1] Warning: link 'base_link' material 'gray' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'base_link' material 'gray' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'front_caster_stem_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'front_caster_stem_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'front_caster_wheel_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'front_caster_wheel_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'rear_axle_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'rear_axle_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'rear_wheel_left_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'rear_wheel_left_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'rear_wheel_right_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] Warning: link 'rear_wheel_right_link' material 'red' undefined.
-[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
-[robot_state_publisher-1] [INFO] [1752988242.420917331] [robot_state_publisher]: got segment base_link
-[robot_state_publisher-1] [INFO] [1752988242.421006631] [robot_state_publisher]: got segment front_caster_stem_link
-[robot_state_publisher-1] [INFO] [1752988242.421016682] [robot_state_publisher]: got segment front_caster_wheel_link
-[robot_state_publisher-1] [INFO] [1752988242.421022461] [robot_state_publisher]: got segment rear_axle_link
-[robot_state_publisher-1] [INFO] [1752988242.421030370] [robot_state_publisher]: got segment rear_wheel_left_link
-[robot_state_publisher-1] [INFO] [1752988242.421042923] [robot_state_publisher]: got segment rear_wheel_right_link
-[rviz2-2] [INFO] [1752988242.683557927] [rviz2]: Stereo is NOT SUPPORTED
-[rviz2-2] [INFO] [1752988242.683688127] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
-[rviz2-2] [INFO] [1752988242.700075498] [rviz2]: Stereo is NOT SUPPORTED
-
-
-
-# rsp.launch.py
-import os
-
-from launch import LaunchDescription
-from launch.substitutions import Command
-from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-
-def generate_launch_description():
-    # Locate package share and file paths
-    pkg_share = FindPackageShare('my_bot').find('my_bot')
-    xacro_file = os.path.join(pkg_share, 'description', 'robot.urdf.xacro')
-    rviz_config = os.path.join(pkg_share, 'rviz', 'my_bot.rviz')
-
-    return LaunchDescription([
-        # 1) Publish your URDF on /robot_description
-        Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            parameters=[{
-                'robot_description': Command(['xacro ', xacro_file])
-            }]
-        ),
-
-        # 2) Publish zero joint states for all non-fixed joints
-        Node(
-            package='joint_state_publisher',
-            executable='joint_state_publisher',
-            name='joint_state_publisher',
-            output='screen'
-        ),
-
-        # 3) Launch RViz2 (will use saved config if present)
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            output='screen',
-            arguments=['-d', rviz_config] if os.path.exists(rviz_config) else []
-        ),
-    ])
-
