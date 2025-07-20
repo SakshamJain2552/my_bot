@@ -129,3 +129,49 @@
   </link>
 
 </robot>
+
+
+
+
+
+
+ros2 launch my_bot rsp.launch.py
+[INFO] [launch]: All log files can be found below /home/rover/.ros/log/2025-07-20-15-10-42-289371-myie-Vostro-5581-11920
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [11922]
+[INFO] [rviz2-2]: process started with pid [11924]
+[rviz2-2] Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
+[robot_state_publisher-1] Warning: link 'base_link' material 'gray' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'base_link' material 'gray' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'front_caster_stem_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'front_caster_stem_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'front_caster_wheel_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'front_caster_wheel_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'rear_axle_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'rear_axle_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'rear_wheel_left_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'rear_wheel_left_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'rear_wheel_right_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] Warning: link 'rear_wheel_right_link' material 'red' undefined.
+[robot_state_publisher-1]          at line 84 in ./urdf_parser/src/model.cpp
+[robot_state_publisher-1] [INFO] [1752988242.420917331] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-1] [INFO] [1752988242.421006631] [robot_state_publisher]: got segment front_caster_stem_link
+[robot_state_publisher-1] [INFO] [1752988242.421016682] [robot_state_publisher]: got segment front_caster_wheel_link
+[robot_state_publisher-1] [INFO] [1752988242.421022461] [robot_state_publisher]: got segment rear_axle_link
+[robot_state_publisher-1] [INFO] [1752988242.421030370] [robot_state_publisher]: got segment rear_wheel_left_link
+[robot_state_publisher-1] [INFO] [1752988242.421042923] [robot_state_publisher]: got segment rear_wheel_right_link
+[rviz2-2] [INFO] [1752988242.683557927] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-2] [INFO] [1752988242.683688127] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[rviz2-2] [INFO] [1752988242.700075498] [rviz2]: Stereo is NOT SUPPORTED
+
