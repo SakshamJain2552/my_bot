@@ -5,23 +5,15 @@
   <xacro:include filename="$(find my_bot)/description/inertial_macros.xacro"/>
 
   <!-- materials -->
-  <material name="white">
-    <color rgba="1 1 1 1"/>
-  </material>
-  <material name="orange">
-    <color rgba="1 0.3 0.1 1"/>
-  </material>
-  <material name="blue">
-    <color rgba="0.2 0.2 1 1"/>
-  </material>
-  <material name="black">
-    <color rgba="0 0 0 1"/>
-  </material>
+  <material name="white"><color rgba="1 1 1 1"/></material>
+  <material name="orange"><color rgba="1 0.3 0.1 1"/></material>
+  <material name="blue"><color rgba="0.2 0.2 1 1"/></material>
+  <material name="black"><color rgba="0 0 0 1"/></material>
 
   <!-- BASE LINK -->
   <link name="base_link"/>
 
-  <!-- CHASSIS LINK -->
+  <!-- CHASSIS -->
   <joint name="chassis_joint" type="fixed">
     <parent link="base_link"/>
     <child  link="chassis"/>
@@ -42,16 +34,16 @@
     </xacro:inertial_box>
   </link>
 
-  <!-- FRONT AXLE (fixed beam) -->
+  <!-- FRONT AXLE (fixed, horizontal) -->
   <joint name="front_axle_joint" type="fixed">
     <parent link="base_link"/>
     <child  link="front_axle_link"/>
-    <!-- move to front-center, align with wheel centers -->
-    <origin xyz="0.24 0 0" rpy="0 0 0"/>
+    <origin xyz="0.24 0 -0.075" rpy="0 0 0"/>
   </joint>
   <link name="front_axle_link">
     <visual>
-      <origin rpy="0 0 1.5708"/>
+      <!-- rotate cylinder into X direction -->
+      <origin rpy="0 1.5708 0"/>
       <geometry><cylinder length="0.35" radius="0.01"/></geometry>
       <material name="orange"/>
     </visual>
@@ -64,8 +56,8 @@
   <joint name="front_wheel_left_joint" type="continuous">
     <parent link="front_axle_link"/>
     <child  link="front_wheel_left"/>
-    <origin xyz="0  0.175 0" rpy="-${pi/2} 0 0"/>
-    <axis   xyz="0  0 1"/>
+    <origin xyz="0  0.15 0" rpy="-${pi/2} 0 0"/>
+    <axis   xyz="0 0 1"/>
   </joint>
   <link name="front_wheel_left">
     <visual>
@@ -84,8 +76,8 @@
   <joint name="front_wheel_right_joint" type="continuous">
     <parent link="front_axle_link"/>
     <child  link="front_wheel_right"/>
-    <origin xyz="0 -0.175 0" rpy="${pi/2} 0 0"/>
-    <axis   xyz="0  0 -1"/>
+    <origin xyz="0 -0.15 0" rpy="${pi/2} 0 0"/>
+    <axis   xyz="0 0 -1"/>
   </joint>
   <link name="front_wheel_right">
     <visual>
@@ -100,16 +92,15 @@
     </xacro:inertial_cylinder>
   </link>
 
-  <!-- REAR AXLE (fixed beam) -->
+  <!-- REAR AXLE (fixed, horizontal) -->
   <joint name="rear_axle_joint" type="fixed">
     <parent link="base_link"/>
     <child  link="rear_axle_link"/>
-    <!-- move to back-center -->
-    <origin xyz="-0.24 0 0" rpy="0 0 0"/>
+    <origin xyz="-0.24 0 -0.075" rpy="0 0 0"/>
   </joint>
   <link name="rear_axle_link">
     <visual>
-      <origin rpy="0 0 1.5708"/>
+      <origin rpy="0 1.5708 0"/>
       <geometry><cylinder length="0.35" radius="0.01"/></geometry>
       <material name="orange"/>
     </visual>
@@ -122,8 +113,8 @@
   <joint name="rear_wheel_left_joint" type="continuous">
     <parent link="rear_axle_link"/>
     <child  link="rear_wheel_left"/>
-    <origin xyz="0  0.175 0" rpy="-${pi/2} 0 0"/>
-    <axis   xyz="0  0 1"/>
+    <origin xyz="0  0.15 0" rpy="-${pi/2} 0 0"/>
+    <axis   xyz="0 0 1"/>
   </joint>
   <link name="rear_wheel_left">
     <visual>
@@ -142,8 +133,8 @@
   <joint name="rear_wheel_right_joint" type="continuous">
     <parent link="rear_axle_link"/>
     <child  link="rear_wheel_right"/>
-    <origin xyz="0 -0.175 0" rpy="${pi/2} 0 0"/>
-    <axis   xyz="0  0 -1"/>
+    <origin xyz="0 -0.15 0" rpy="${pi/2} 0 0"/>
+    <axis   xyz="0 0 -1"/>
   </joint>
   <link name="rear_wheel_right">
     <visual>
