@@ -118,79 +118,44 @@
 
 
 
-ros2 launch my_bot rsp.launch.py
-[INFO] [launch]: All log files can be found below /home/rover/.ros/log/2025-07-20-14-58-47-015985-myie-Vostro-5581-9569
-[INFO] [launch]: Default logging verbosity is set to INFO
-[ERROR] [launch]: Caught exception in launch (see debug for traceback): Caught multiple exceptions when trying to load file of format [py]:
- - ExpatError: mismatched tag: line 56, column 8
- - InvalidFrontendLaunchFileError: The launch file may have a syntax error, or its format is unknown
-
-
 # rsp.launch.py
+import os
+
 from launch import LaunchDescription
 from launch.actions import ExecuteProcess
+from launch.substitutions import Command, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
+    pkg_share = FindPackageShare('my_bot').find('my_bot')
+
     return LaunchDescription([
-        # 1) publish your URDF on /robot_description
+        # 1) Publish your URDF on /robot_description
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
             parameters=[{
-                # assumes your xacro lives at description/robot.urdf.xacro
                 'robot_description': Command([
-                    'xacro ', 
-                    PathJoinSubstitution([
-                        FindPackageShare('my_bot'),
-                        'description',
-                        'robot.urdf.xacro'
-                    ])
+                    'xacro ',
+                    os.path.join(pkg_share, 'description', 'robot.urdf.xacro')
                 ])
             }]
         ),
 
-        # 2) optional: start RViz automatically
+        # 2) Launch RViz2 with optional config
         Node(
             package='rviz2',
             executable='rviz2',
             name='rviz2',
             output='screen',
-            arguments=['-d', PathJoinSubstitution([
-                FindPackageShare('my_bot'),
-                'rviz',
-                'my_bot.rviz'   # point this at your saved config if you have one
-            ])]
+            arguments=[
+                '-d',
+                os.path.join(pkg_share, 'rviz', 'my_bot.rviz')
+            ] if os.path.exists(
+                os.path.join(pkg_share, 'rviz', 'my_bot.rviz')
+            ) else []
         ),
     ])
-
-
-
-ros2 launch my_bot rsp.launch.py --show-args --debug
-Traceback (most recent call last):
-  File "/opt/ros/humble/lib/python3.10/site-packages/launch/launch_description_sources/any_launch_file_utilities.py", line 54, in get_launch_description_from_any_launch_file
-    return loader(launch_file_path)
-  File "/opt/ros/humble/lib/python3.10/site-packages/launch/launch_description_sources/python_launch_file_utilities.py", line 68, in get_launch_description_from_python_launch_file
-    return getattr(launch_file_module, 'generate_launch_description')()
-  File "/home/rover/dev_ws/install/my_bot/share/my_bot/launch/rsp.launch.py", line 59, in generate_launch_description
-    'robot_description': Command([
-NameError: name 'Command' is not defined
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/ros/humble/bin/ros2", line 33, in <module>
-    sys.exit(load_entry_point('ros2cli==0.18.11', 'console_scripts', 'ros2')())
-  File "/opt/ros/humble/lib/python3.10/site-packages/ros2cli/cli.py", line 91, in main
-    rc = extension.main(parser=parser, args=args)
-  File "/opt/ros/humble/lib/python3.10/site-packages/ros2launch/command/launch.py", line 170, in main
-    return print_arguments_of_launch_file(launch_file_path=path)
-  File "/opt/ros/humble/lib/python3.10/site-packages/ros2launch/api/api.py", line 123, in print_arguments_of_launch_file
-    launch_description = get_launch_description_from_any_launch_file(launch_file_path)
-  File "/opt/ros/humble/lib/python3.10/site-packages/launch/launch_description_sources/any_launch_file_utilities.py", line 57, in get_launch_description_from_any_launch_file
-    raise InvalidLaunchFileError(extension, likely_errors=exceptions)
-launch.invalid_launch_file_error.InvalidLaunchFileError: Caught multiple exceptions when trying to load file of format [py]:
- - NameError: name 'Command' is not defined
- - InvalidFrontendLaunchFileError: The launch file may have a syntax error, or its format is unknown
