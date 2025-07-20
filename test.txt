@@ -3,118 +3,56 @@
 
   <!-- 1) Base chassis -->
   <link name="base_link">
-    <visual>
-      <geometry>
-        <box size="0.6 0.4 0.15"/>   <!-- length × width × height -->
-      </geometry>
-      <material name="gray"/>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.6 0.4 0.15"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <!-- 2) Front caster assembly -->
-  <!-- 2a) Caster “stem” (the red cylinder protruding from the body) -->
-  <joint name="front_caster_stem_joint" type="fixed">
-    <parent link="base_link"/>
-    <child  link="front_caster_stem_link"/>
-    <!-- position this at the front center, slightly below chassis mid‑height -->
-    <origin xyz=" 0.3  0.0 -0.075" rpy="0 0 0"/>
-  </joint>
-  <link name="front_caster_stem_link">
-    <visual>
-      <geometry>
-        <cylinder length="0.05" radius="0.01"/>  <!-- stem length & thickness -->
-      </geometry>
-      <material name="red"/>
-    </visual>
+    …
   </link>
 
   <!-- 2b) Caster wheel joint (free‐spinning) -->
   <joint name="front_caster_wheel_joint" type="continuous">
-    <parent link="front_caster_stem_link"/>
-    <child  link="front_caster_wheel_link"/>
-    <!-- wheel sits at the end of the stem -->
-    <origin xyz="0 0 -0.025" rpy="0 0 0"/>  
-    <axis  xyz="0 1 0"/>
+    …
   </joint>
   <link name="front_caster_wheel_link">
     <visual>
-      <geometry>
-        <cylinder length="0.04" radius="0.08"/>  <!-- wheel thickness & radius -->
-      </geometry>
-      <material name="red"/>
-      <!-- rotate cylinder so its axis points along Y -->
-      <origin rpy="0 0 1.5708"/>
+      …
     </visual>
     <collision>
       <geometry>
         <cylinder length="0.04" radius="0.08"/>
-      </collision>
+      </geometry>                <!-- ← added -->
+    </collision>
   </link>
 
-  <!-- 3) Rear drive axle (one fixed axle for both back wheels) -->
-  <joint name="rear_axle_joint" type="fixed">
-    <parent link="base_link"/>
-    <child  link="rear_axle_link"/>
-    <!-- position it at the back -->
-    <origin xyz="-0.3  0.0 -0.075" rpy="0 0 0"/>
-  </joint>
-  <link name="rear_axle_link">
-    <visual>
-      <geometry>
-        <cylinder length="0.4" radius="0.01"/> 
-      </geometry>
-      <material name="red"/>
-      <origin rpy="0 0 1.5708"/>
-    </visual>
-  </link>
-
-  <!-- 4) Left & right drive wheels -->
+  <!-- 4) Left drive wheel -->
   <joint name="rear_wheel_left_joint"  type="continuous">
-    <parent link="rear_axle_link"/>
-    <child  link="rear_wheel_left_link"/>
-    <origin xyz="0  0.2 0" rpy="0 0 0"/>
-    <axis  xyz="0 1 0"/>
+    …
   </joint>
   <link name="rear_wheel_left_link">
     <visual>
-      <geometry>
-        <cylinder length="0.05" radius="0.08"/>
-      </geometry>
-      <material name="red"/>
-      <origin rpy="0 0 1.5708"/>
+      …
     </visual>
     <collision>
       <geometry>
         <cylinder length="0.05" radius="0.08"/>
-      </collision>
+      </geometry>                <!-- ← added -->
+    </collision>
   </link>
 
+  <!-- 4) Right drive wheel -->
   <joint name="rear_wheel_right_joint" type="continuous">
-    <parent link="rear_axle_link"/>
-    <child  link="rear_wheel_right_link"/>
-    <origin xyz="0 -0.2 0"  rpy="0 0 0"/>
-    <axis  xyz="0 1 0"/>
+    …
   </joint>
   <link name="rear_wheel_right_link">
     <visual>
-      <geometry>
-        <cylinder length="0.05" radius="0.08"/>
-      </geometry>
-      <material name="red"/>
-      <origin rpy="0 0 1.5708"/>
+      …
     </visual>
     <collision>
       <geometry>
         <cylinder length="0.05" radius="0.08"/>
-      </collision>
+      </geometry>                <!-- ← added -->
+    </collision>
   </link>
 
 </robot>
+
 
 
 
